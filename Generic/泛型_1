@@ -1,0 +1,50 @@
+//Data 2018 03 14
+#include <iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+//vector<int> filter(const vector<int> &vec,int filter_value,bool (*pred)(int ,int));
+template<typename Inputiterator,typename Outputiterator,typename ElemType,typename comp>
+Outputiterator filter(Inputiterator first,Inputiterator last,Outputiterator at,const ElemType &val,comp pred);
+bool greater_than(int v1,int v2);
+bool less_than(int v1,int v2);
+int main() {
+    int a[10]={1,3,5,11,88,32,7,12,3,0};
+    vector<int> vc(a,a+10);
+    vector<int> ne(10);
+    vector<int>::iterator iT=ne.begin();
+    filter(vc.begin(),vc.end(),iT,8,less<int>());
+    vector<int>::iterator it;
+    for(it=ne.begin();it!=ne.end();it++)
+        cout<<*it<<" ";
+
+    return 0;
+}
+bool less_than(int v1,int v2)
+{
+    return v1<v2?true:false;
+}
+bool greater_than(int v1,int v2)
+{
+    return v1>v2?true:false;
+}
+/*vector<int> filter(const vector<int> &vec,int filter_value,bool (*pred)(int ,int))
+{
+    vector<int> nvec;
+    for(int ix=0;ix<vec.size();ix++)
+    {
+        if(pred(vec[ix],filter_value))
+            nvec.push_back(vec[ix]);
+    }
+    return nvec;
+}
+ */
+template<typename Inputiterator,typename Outputiterator,typename ElemType,typename comp>
+Outputiterator filter(Inputiterator first,Inputiterator last,Outputiterator at,const ElemType &val,comp pred)
+{
+    while((first=find_if(first,last,bind2nd(pred,val)))!=last)
+    {
+        *at++=*first++;
+    }
+    return at;
+}
